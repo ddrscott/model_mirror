@@ -9,12 +9,12 @@
         %ul.nav.nav-pills.nav-stacked
           - belongs_to_relations(model_class).each do |k, relation|
             %li
-              - foreign_id = @row[relation.foreign_key]
-              = link_to_mirror_belongs_to("#{k} [#{relation.foreign_key}: #{foreign_id}]", id: foreign_id, foreign_class: relation.klass)
+              - if foreign_id = @row[relation.foreign_key]
+                = link_to_mirror_belongs_to("#{k} [#{foreign_id}]", id: foreign_id, foreign_class: relation.klass)
         %label Has Many
         %ul.nav.nav-pills.nav-stacked
           - has_many_relations(model_class).each do |k, relation|
-            %li(class="#{params[:has_many] == k && 'active'}")= link_to_mirror_has_many(k, model: @row, has_many: k)
+            %li(class="#{params[:has_many] == k && 'active'}")= link_to_mirror_has_many("#{k} (#{@row.send(k).try(:count)})", model: @row, has_many: k)
         = render 'props', row: @row
   .col-sm-9
     - if @has_manies

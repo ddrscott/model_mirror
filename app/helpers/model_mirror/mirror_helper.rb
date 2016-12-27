@@ -30,9 +30,9 @@ module ModelMirror
         content_tag(:td) do
           if model_class.primary_key == key
             link_to_mirror(value, row)
-          elsif td_belongs_to?(row_class, key)
+          elsif td_belongs_to?(row_class, key) and value
             relation = belongs_to_idx[[row_class, key]]
-            link_to value, mirror_show_url(model_path: relation.class_name.underscore, id: value)
+            link_to value, mirror_show_url(model_path: relation.klass.to_s.underscore, id: value)
           else
             html_escape value
           end
