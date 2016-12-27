@@ -1,0 +1,24 @@
+.row
+  .col-sm-3
+    .panel.panel-primary
+      .panel-heading
+        = model_class.to_s.titleize
+        [#{model_class.primary_key}: #{@row.send(model_class.primary_key)}]
+      .panel-body
+        %label Belongs To
+        %ul.nav.nav-pills.nav-stacked
+          - belongs_to_relations(model_class).each do |k, relation|
+            %li
+              - foreign_id = @row[relation.foreign_key]
+              = link_to_mirror_belongs_to("#{k} [#{relation.foreign_key}: #{foreign_id}]", id: foreign_id, foreign_class: relation.klass)
+        %label Has Many
+        %ul.nav.nav-pills.nav-stacked
+          - has_many_relations(model_class).each do |k, relation|
+            %li(class="#{params[:has_many] == k && 'active'}")= link_to_mirror_has_many(k, model: @row, has_many: k)
+        = render 'props', row: @row
+  .col-sm-9
+    - if @has_manies
+      .panel.panel-default
+        .panel-heading
+          = params[:has_many].titleize
+        = render 'table', rows: @has_manies

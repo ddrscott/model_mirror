@@ -1,0 +1,6 @@
+<h1>Models</h1>
+<ul>
+  <% @models.each do |model| %>
+    <li><%= link_to_mirror(model.to_s, model) %></li>
+  <% end %>
+</ul>

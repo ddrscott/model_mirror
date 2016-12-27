@@ -1,0 +1,7 @@
+%form
+  - row.as_json.each do |key, value|
+    .form-group
+      %label
+        = key
+      %input.form-control(value="#{value}" disabled)
+

@@ -14,6 +14,10 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 group :development, :test do
-  gem 'table_print'
   gem 'pry-rails'
+  gem 'table_print'
+end
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-bootstrap'
 end

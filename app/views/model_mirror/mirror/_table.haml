@@ -1,0 +1,10 @@
+.table-responsive
+  %table.table.table-striped.table-condensed
+    - rows.each_with_index do |row, i|
+      - attribs = row.attributes
+      - if i == 0
+        %tr
+          = th_attributes(attribs)
+      %tr
+        = td_model(row)
+
