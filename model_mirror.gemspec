@@ -8,10 +8,9 @@ Gem::Specification.new do |s|
   s.name        = 'model_mirror'
   s.version     = ModelMirror::VERSION
   s.authors     = ['Scott Pierce']
-  s.email       = ['scott.pierce@centro.net']
-  s.homepage    = 'TODO'
-  s.summary     = 'TODO: Summary of ModelMirror.'
-  s.description = 'TODO: Description of ModelMirror.'
+  s.email       = ['ddrscott@gmail.com']
+  s.homepage    = 'https://github.com/ddrscott/model_mirror'
+  s.summary     = 'Rails model viewer using reflection and Bootstrap'
   s.license     = 'MIT'
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.rdoc']
