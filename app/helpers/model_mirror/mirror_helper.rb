@@ -16,6 +16,10 @@ module ModelMirror
       link_to label, mirror_has_many_url(model_path: model.class.to_s.underscore, id: model.id, has_many: has_many)
     end
 
+    def link_to_mirror_relation(label, model:, relation:)
+      link_to label, mirror_relation_url(model_path: model.class.to_s.underscore, id: model.id, relation: relation)
+    end
+
     def th_attributes(attribs)
       attribs.map do |key, _value|
         content_tag(:th) do
@@ -47,6 +51,12 @@ module ModelMirror
 
     def belongs_to_idx
       @__td_belongs_to_idx ||= {}
+    end
+
+    def li_suffix(row, relation)
+      child = row.send(relation.name)
+      count = child.try(:count)
+      count && " (#{count})"
     end
   end
 end

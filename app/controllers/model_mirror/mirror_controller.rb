@@ -11,7 +11,7 @@ module ModelMirror
 
     def show
       @row = model_instance
-      @has_manies = model_instance.send(params[:has_many]) if model_has_many
+      @model_children = model_children
     end
 
     def list
@@ -20,8 +20,15 @@ module ModelMirror
 
     private
 
-    def model_has_many
-      model_class.reflect_on_association(params[:has_many])
+    def model_children
+      return unless model_association
+      # ensure an Array is returned in cases
+      # of belongs_to/has_one associations
+      Array model_instance.send(params[:relation])
+    end
+
+    def model_association
+      model_class.reflect_on_association(params[:relation])
     end
 
     def model_class
@@ -32,21 +39,5 @@ module ModelMirror
     def model_instance
       @model_instance ||= model_class.find(params[:id])
     end
-
-    def has_many_relations(model_class)
-      model_class.reflections.select do |_, relation|
-        relation.is_a? ActiveRecord::Reflection::HasManyReflection or
-          relation.is_a? ActiveRecord::Reflection::ThroughReflection
-      end
-    end
-    helper_method :has_many_relations
-
-    def belongs_to_relations(model_class)
-      model_class.reflections.select do |_, relation|
-        relation.is_a? ActiveRecord::Reflection::BelongsToReflection or
-          relation.is_a? ActiveRecord::Reflection::HasOneReflection
-      end
-    end
-    helper_method :belongs_to_relations
   end
 end
