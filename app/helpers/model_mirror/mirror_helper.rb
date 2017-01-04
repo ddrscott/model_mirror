@@ -36,7 +36,13 @@ module ModelMirror
             link_to_mirror(value, row)
           elsif td_belongs_to?(row_class, key) and value
             relation = belongs_to_idx[[row_class, key]]
-            link_to value, mirror_show_url(model_path: relation.klass.to_s.underscore, id: value)
+            if relation.polymorphic?
+              poly_class = row.send(relation.foreign_type)
+              poly_id = row.send(relation.foreign_key)
+              link_to value, mirror_show_url(model_path: poly_class.underscore, id: poly_id)
+            else
+              link_to value, mirror_show_url(model_path: relation.klass.to_s.underscore, id: value)
+            end
           else
             html_escape value
           end
